@@ -12,7 +12,6 @@ def load_data(url):
         data_movies[feature] = data_movies[feature].fillna('No information available')
     return data_movies
 
-# Main function where Streamlit app is defined
 def main():
     # Page configuration and theme settings
     st.set_page_config(page_title="Tamil Movie Recommender", page_icon=":movie_camera:", layout="wide")
@@ -41,26 +40,31 @@ def main():
 
     # Text input for movie name
     user_movieName = st.text_input("Enter the name of your favorite movie", "")
-    if st.button('Recommend Movies'):
-        if user_movieName:
-            search_close_match = difflib.get_close_matches(user_movieName, all_titles_list, n=5)
-        if not search_close_match:
-            st.error("No close matches found! Please check your input and try again with a different movie name.")
-        else:
-            close_match = st.selectbox('Did you mean:', search_close_match)
-            if st.button('Yes, Show Recommendations'):
-                index_movie = data_movies[data_movies.MovieName == close_match].index.values[0]
-                similar_score = list(enumerate(cos_similar[index_movie]))
-                sorted_similar_mov = sorted(similar_score, key=lambda x: x[1], reverse=True)
-                
-                st.subheader("Suggesting similar movies for you:")
-                for movie in sorted_similar_mov[1:21]:  # Skip the first as it is the movie itself with 100% similarity
-                    index = movie[0]
-                    similarity_percentage = movie[1] * 100
-                    title_fr_index = data_movies.at[index, "MovieName"]
-                    st.write(f"{title_fr_index} - Similarity: {similarity_percentage:.2f}%")
 
-    
+    # Initialize session state variables
+    if 'search_close_match' not in st.session_state:
+        st.session_state['search_close_match'] = []
+    if 'selected_movie' not in st.session_state:
+        st.session_state['selected_movie'] = None
+
+    if st.button('Recommend Movies') and user_movieName:
+        st.session_state['search_close_match'] = difflib.get_close_matches(user_movieName, all_titles_list, n=5)
+        st.session_state['selected_movie'] = None  # Reset selected movie when new search is made
+
+    if st.session_state['search_close_match']:
+        st.session_state['selected_movie'] = st.selectbox('Did you mean:', st.session_state['search_close_match'])
+
+    if st.session_state['selected_movie'] and st.button('Yes, Show Recommendations'):
+        index_movie = data_movies[data_movies.MovieName == st.session_state['selected_movie']].index.values[0]
+        similar_score = list(enumerate(cos_similar[index_movie]))
+        sorted_similar_mov = sorted(similar_score, key=lambda x: x[1], reverse=True)
+        
+        st.subheader("Suggesting similar movies for you:")
+        for movie in sorted_similar_mov[1:21]:  # Skip the first as it is the movie itself with 100% similarity
+            index = movie[0]
+            similarity_percentage = movie[1] * 100
+            title_fr_index = data_movies.at[index, "MovieName"]
+            st.write(f"{title_fr_index} - Similarity: {similarity_percentage:.2f}%")
 
 if __name__ == "__main__":
     main()
