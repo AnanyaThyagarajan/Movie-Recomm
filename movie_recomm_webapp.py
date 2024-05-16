@@ -43,7 +43,7 @@ def main():
     user_movieName = st.text_input("Enter the name of your favorite movie", "")
     if st.button('Recommend Movies'):
         if user_movieName:
-        search_close_match = difflib.get_close_matches(user_movieName, all_titles_list, n=5)
+            search_close_match = difflib.get_close_matches(user_movieName, all_titles_list, n=5)
         if not search_close_match:
             st.error("No close matches found! Please check your input and try again with a different movie name.")
         else:
