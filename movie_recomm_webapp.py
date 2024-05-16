@@ -41,14 +41,14 @@ def main():
 
     # Text input for movie name
     user_movieName = st.text_input("Enter the name of your favorite movie", "")
-
-    if user_movieName:
+    if st.button('Recommend Movies'):
+        if user_movieName:
         search_close_match = difflib.get_close_matches(user_movieName, all_titles_list, n=5)
         if not search_close_match:
             st.error("No close matches found! Please check your input and try again with a different movie name.")
         else:
             close_match = st.selectbox('Did you mean:', search_close_match)
-            if st.button('Show Recommendations'):
+            if st.button('Yes, Show Recommendations'):
                 index_movie = data_movies[data_movies.MovieName == close_match].index.values[0]
                 similar_score = list(enumerate(cos_similar[index_movie]))
                 sorted_similar_mov = sorted(similar_score, key=lambda x: x[1], reverse=True)
@@ -59,6 +59,8 @@ def main():
                     similarity_percentage = movie[1] * 100
                     title_fr_index = data_movies.at[index, "MovieName"]
                     st.write(f"{title_fr_index} - Similarity: {similarity_percentage:.2f}%")
+
+    
 
 if __name__ == "__main__":
     main()
