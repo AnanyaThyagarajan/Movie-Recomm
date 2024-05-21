@@ -36,6 +36,8 @@ def movie_recomm(all_titles_list, data_movies, cos_similar):
                 st.write(f"{title_fr_index} - Similarity: {similarity_percentage:.2f}%")
 
 def main():
+    st.set_page_config(page_title="Tamil Movie Recommender", page_icon=":movie_camera:", layout="wide")
+
     st.markdown("""
     <style>
     body {
@@ -50,7 +52,7 @@ def main():
     .img-slider {
         display: flex;
         overflow-x: auto;
-        animation: slide 20s infinite linear;
+        animation: slide 2s infinite linear;
     }
     @keyframes slide {
         from { transform: translateX(0); }
@@ -72,7 +74,6 @@ def main():
     </div>
     """, unsafe_allow_html=True)
 
-    st.set_page_config(page_title="Tamil Movie Recommender", page_icon=":movie_camera:", layout="wide")
     st.title('Tamil Movie Recommender')
     st.markdown('## Discover Movies Similar to Your Favorites!')
 
