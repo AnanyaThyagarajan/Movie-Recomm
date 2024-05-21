@@ -18,7 +18,7 @@ def movie_recomm(user_movieName, all_titles_list, data_movies, cos_similar):
         st.error("No close matches found! Please check your input and either try again or try a different movie.")
     else:
         close_match = st.selectbox('Did you mean:', search_close_match)
-        if st.button('Yes, Show Recommendations', key='confirm_recommend'):
+        if st.button('Yes, recommend!', key='confirm_recommend'):
             index_movie = data_movies[data_movies.MovieName == close_match].index.values[0]
             similar_score = list(enumerate(cos_similar[index_movie]))
             sorted_similar_mov = sorted(similar_score, key=lambda x: x[1], reverse=True)
@@ -51,9 +51,8 @@ def main():
     cos_similar = cosine_similarity(feature_vect)
     
     user_movieName = st.text_input("Enter the name of your favorite movie", "")
-    if user_movieName:
+    if st.button('Recommend', key='search_movies'):
         movie_recomm(user_movieName, all_titles_list, data_movies, cos_similar)
 
 if __name__ == "__main__":
     main()
-
