@@ -85,7 +85,7 @@ def main():
     user_movieName = st.text_input("Enter the name of your favorite movie", key="movie_input")
     if st.button('Recommend', key='get_recommend'):
         selected_movie = movie_recomm(user_movieName, all_titles_list, data_movies, cos_similar)
-        elif selected_movie:
+        if selected_movie:
             show_recommendations(selected_movie, data_movies, cos_similar)
        
 
