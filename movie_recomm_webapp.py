@@ -52,14 +52,14 @@ def main():
     .img-slider {
         display: flex;
         overflow-x: auto;
-        animation: slide 2s infinite linear;
+        animation: slide 5s infinite linear;
     }
     @keyframes slide {
         from { transform: translateX(0); }
         to { transform: translateX(-33.33%); }
     }
     img {
-        height: 150px;  # Adjust height as needed
+        height: 350px;  # Adjust height as needed
         margin-right: 5px;
     }
     </style>
