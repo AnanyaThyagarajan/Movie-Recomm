@@ -62,6 +62,7 @@ def main():
     
     st.title('Tamil Movie Recommender')
     st.markdown('## Discover Movies Similar to Your Favorites!')
+    st.image('https://raw.githubusercontent.com/AnanyaThyagarajan/Movie-Recomm/main/reel-8561.gif', width=300)
 
     data_url = 'https://raw.githubusercontent.com/AnanyaThyagarajan/Python-Projects/main/Movie%20Recommend/Tamil_movies_dataset.csv'
     data_movies = load_data(data_url)
