@@ -81,7 +81,7 @@ def main():
     }
     </style>
     <div class="footer">
-        <p>Made by Ananya Krithika Thyagarajan ❄☃❤ | <a href="https://www.linkedin.com/in/ananya-krithikathyagarajan" target="_blank">LinkedIn</a> | <a href="https://github.com/AnanyaThyagarajan/Movie-Recomm" target="_blank">GitHu-Rep</a></p>
+        <p>Made by Ananya Krithika Thyagarajan | <a href="https://www.linkedin.com/in/ananya-krithikathyagarajan" target="_blank">LinkedIn</a> | <a href="https://github.com/AnanyaThyagarajan/Movie-Recomm" target="_blank">GitHu-Rep</a></p>
     </div>
     """
     st.markdown(footer, unsafe_allow_html=True)
