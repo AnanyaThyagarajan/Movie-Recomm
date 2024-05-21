@@ -4,6 +4,7 @@ import difflib
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 st.set_page_config(page_title="Tamil Movie Recommender", page_icon=":movie_camera:", layout="wide")
+
 # Load the data
 @st.cache_data
 def load_data(url):
@@ -20,7 +21,7 @@ def find_similar_movies(selected_movie, data_movies, cos_similar):
 
 
 def main():
-    st.set_page_config(page_title="Tamil Movie Recommender", page_icon=":movie_camera:", layout="wide")
+    
 
     st.markdown("""
     <style>
