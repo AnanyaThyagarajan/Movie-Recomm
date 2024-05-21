@@ -5,27 +5,21 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
 # Load the data
-@st.cache(allow_output_mutation=True)
+@st.cache_data  # Updated to use the new cache method
 def load_data(url):
     data_movies = pd.read_csv(url)
     for feature in ['MovieName', 'Genre', 'Actor', 'Director']:
         data_movies[feature] = data_movies[feature].fillna('No information available')
     return data_movies
 
-def movie_recomm(all_titles_list, data_movies, cos_similar):
-    if 'selected_movie' not in st.session_state or st.session_state.selected_movie is None:
-        st.session_state.search_close_match = []
-        st.session_state.selected_movie = None
-        user_movieName = st.session_state.user_movieName
-        search_close_match = difflib.get_close_matches(user_movieName, all_titles_list, n=5)
-        if not search_close_match:
-            st.error("No close matches found! Please check your input and try a different movie.")
-        else:
-            st.session_state.search_close_match = search_close_match
-            st.session_state.selected_movie = st.selectbox('Did you mean:', search_close_match)
-    if st.button('Yes, recommend!', key='confirm_recommend'):
-        if st.session_state.selected_movie:
-            index_movie = data_movies[data_movies.MovieName == st.session_state.selected_movie].index.values[0]
+def movie_recomm(user_movieName, all_titles_list, data_movies, cos_similar):
+    search_close_match = difflib.get_close_matches(user_movieName, all_titles_list, n=5)
+    if not search_close_match:
+        st.error("No close matches found! Please check your input and try a different movie.")
+    else:
+        selected_movie = st.selectbox('Did you mean:', search_close_match)
+        if st.button('Yes, recommend!', key='confirm_recommend'):
+            index_movie = data_movies[data_movies.MovieName == selected_movie].index.values[0]
             similar_score = list(enumerate(cos_similar[index_movie]))
             sorted_similar_mov = sorted(similar_score, key=lambda x: x[1], reverse=True)
             st.subheader("Suggesting similar movies for you:")
@@ -41,7 +35,7 @@ def main():
     st.markdown("""
     <style>
     body {
-        color: #fff;
+        color: #0000ff;
         background-color: #ff0000;
         font-family: 'Helvetica';
     }
@@ -86,8 +80,8 @@ def main():
     tf_vector = TfidfVectorizer()
     feature_vect = tf_vector.fit_transform(feature_combined)
     cos_similar = cosine_similarity(feature_vect)
-
-    user_movieName = st.text_input(" ### Enter the name of your favorite movie", key="movie_input")
+    
+    user_movieName = st.text_input("Enter the name of your favorite movie", key="movie_input")
     if st.button('Recommend'):
         if user_movieName:
             movie_recomm(user_movieName, all_titles_list, data_movies, cos_similar)
