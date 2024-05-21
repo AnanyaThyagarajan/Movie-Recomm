@@ -87,7 +87,7 @@ def main():
     feature_vect = tf_vector.fit_transform(feature_combined)
     cos_similar = cosine_similarity(feature_vect)
 
-    user_movieName = st.text_input("Enter the name of your favorite movie", key="movie_input")
+    user_movieName = st.text_input(" ### Enter the name of your favorite movie", key="movie_input")
     if st.button('Recommend'):
         if user_movieName:
             movie_recomm(user_movieName, all_titles_list, data_movies, cos_similar)
