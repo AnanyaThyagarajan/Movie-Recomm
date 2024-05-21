@@ -3,7 +3,7 @@ import pandas as pd
 import difflib
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-
+st.set_page_config(page_title="Tamil Movie Recommender", page_icon=":movie_camera:", layout="wide")
 # Load the data
 @st.cache_data
 def load_data(url):
@@ -58,9 +58,7 @@ def main():
     </div>
     """, unsafe_allow_html=True)
 
-    # Ensure this is the first command executed in your script.
-    st.set_page_config(page_title="Tamil Movie Recommender", page_icon=":movie_camera:", layout="wide")
-
+    
     st.title('Tamil Movie Recommender')
     st.markdown('## Discover Movies Similar to Your Favorites!')
 
