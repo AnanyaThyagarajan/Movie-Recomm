@@ -77,22 +77,23 @@ def main():
     st.title('Tamil Movie Recommender')
     st.markdown('## Discover Movies Similar to Your Favorites!')
 
-    # Movie GIF (Adjusted size using width parameter)
+    # Movie GIF
     st.image('https://raw.githubusercontent.com/AnanyaThyagarajan/Movie-Recomm/main/reel-8561.gif', width=300)
 
-    url = 'https://raw.githubusercontent.com/AnanyaThyagarajan/Python-Projects/main/Movie%20Recommend/Tamil_movies_dataset.csv'
-    data_movies = load_data(url)
+    data_movies = load_data('https://raw.githubusercontent.com/AnanyaThyagarajan/Python-Projects/main/Movie%20Recommend/Tamil_movies_dataset.csv')
     all_titles_list = set(data_movies['MovieName'].tolist())
     feature_combined = data_movies['MovieName'] + " " + data_movies['Genre'] + " " + data_movies['Actor'] + " " + data_movies['Director']
     tf_vector = TfidfVectorizer()
     feature_vect = tf_vector.fit_transform(feature_combined)
     cos_similar = cosine_similarity(feature_vect)
-    
-    if 'user_movieName' not in st.session_state:
-        st.session_state.user_movieName = st.text_input("Enter the name of your favorite movie", "")
-    if st.button('Recommend', key='search_movies'):
-        if st.session_state.user_movieName:
-            movie_recomm(all_titles_list, data_movies, cos_similar)
+
+    user_movieName = st.text_input("Enter the name of your favorite movie", key="movie_input")
+    if st.button('Recommend'):
+        if user_movieName:
+            movie_recomm(user_movieName, all_titles_list, data_movies, cos_similar)
+        else:
+            st.warning("Movie not found, Please enter a different movie name or try again!")
 
 if __name__ == "__main__":
     main()
+
